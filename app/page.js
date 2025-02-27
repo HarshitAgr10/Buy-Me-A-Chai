@@ -26,7 +26,7 @@ export default function Home() {
           <div className="item space-y-3 flex flex-col items-center justify-center">
             <img className="bg-slate-400 rounded-full p-2 text-black" width={88} src="/man.gif" alt="" />
             <p className="font-bold">Support That Matters</p>
-            <p className="text-center">Your backers are eager to back your creative spark.</p>
+            <p className="text-center">Your supporters are eager to back your creative spark.</p>
           </div>
           <div className="item space-y-3 flex flex-col items-center justify-center">
             <img className="bg-slate-400 rounded-full p-2 text-black" width={88} src="/coin.gif" alt="" />
@@ -45,7 +45,14 @@ export default function Home() {
 
       <div className="text-white container mx-auto pb-32 pt-14 flex flex-col items-center justify-center">
         <h2 className="text-3xl font-bold text-center mb-14">Learn more about us</h2>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/KSX4cwWRzis?si=BTjC1FSOaMwkrm0T" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" 
+        height="315" 
+        src="https://www.youtube.com/embed/KSX4cwWRzis?si=BTjC1FSOaMwkrm0T" title="YouTube video player" 
+        // frameborder="0" 
+        style={{border: 0}}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerPolicy="strict-origin-when-cross-origin" 
+        allowFullScreen></iframe>
       </div>
 
     </>
