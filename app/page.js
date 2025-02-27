@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <>
       <div className="flex justify-center flex-col gap-4 items-center text-white h-[44vh]">
-        <div className="font-bold flex gap-2 text-5xl justify-center items-center">Buy Me A Chai <span><img src="/tea.gif" width={88} alt="" /></span></div>
+        <div className="font-bold flex gap-2 text-5xl justify-center items-center">Buy Me A Chai <span><img className="invertImg" src="/tea.gif" width={88} alt="" /></span></div>
 
         <p>
           Empower your creative journey - Let your supporters fuel your passion. Launch today!
