@@ -54,7 +54,7 @@ const PaymentPage = ({ username }) => {
 
         let dbpayments = await fetchpayments(username)
         setPayments(dbpayments)
-        console.log(u, dbpayments)
+        // console.log(u, dbpayments)
     }
 
     const pay = async (amount) => {
@@ -109,9 +109,9 @@ const PaymentPage = ({ username }) => {
 
 
             <div className='cover w-full bg-red-50 relative'>
-                <img className='object-cover w-full h-[350] shadow-blue-700 shadow-sm' src={currentUser.coverpic} alt="" />
+                <img className='object-cover w-full h-48 md:h-[350px] shadow-blue-700 shadow-sm' src={currentUser.coverpic} alt="" />
 
-                <div className='absolute -bottom-20 right-[45%] border-2 border-white rounded-full overflow-hidden size-36'>
+                <div className='absolute -bottom-20 right-[35%] md:right-[45%] border-2 border-white rounded-full overflow-hidden size-36'>
                     <img className='rounded-full object-cover size-36' width={125} height={125} src={currentUser.profilepic} alt="" />
                 </div>
             </div>
@@ -128,10 +128,10 @@ const PaymentPage = ({ username }) => {
                     {payments.length} Payments . {payments.reduce((a, b) => a + b.amount, 0)} raised!
                 </div>
 
-                <div className="payment flex gap-3 w-[80%] mt-11">
-                    <div className="supporters w-1/2 bg-slate-900 rounded-lg text-white p-10">
+                <div className="payment flex gap-3 w-[80%] mt-11 flex-col md:flex-row">
+                    <div className="supporters w-full md:w-1/2 bg-slate-900 rounded-lg text-white p-10">
                         {/* Show list of all the supporters as a LeaderBoard */}
-                        <h2 className='text-2xl font-bold my-5'>Supporters</h2>
+                        <h2 className='text-2xl font-bold my-5'>Top 10 Supporters</h2>
                         <ul className='mx-5 text-lg'>
                             {payments.length == 0 && <li>No Payments Yet</li>}
                             {payments.map((p, i) => {
@@ -144,7 +144,7 @@ const PaymentPage = ({ username }) => {
                         </ul>
                     </div>
 
-                    <div className="makePayment w-1/2 bg-slate-900 rounded-lg text-white p-10">
+                    <div className="makePayment w-full md:w-1/2 bg-slate-900 rounded-lg text-white p-10">
                         <h2 className='text-2xl font-bold my-5'>Make a Payment</h2>
                         <div className="flex gap-2 flex-col">
                             <div>
@@ -153,11 +153,11 @@ const PaymentPage = ({ username }) => {
                             <input onChange={handleChange} value={paymentform.message} name='message' type="text" className='w-full p-3 rounded-lg bg-slate-800' placeholder='Enter Message' />
                             <input onChange={handleChange} value={paymentform.amount} name='amount' type="text" className='w-full p-3 rounded-lg bg-slate-800' placeholder='Enter Amount' />
 
-                            <button onClick={() => pay(Number.parseInt(paymentform.amount) * 100)} type="button" className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 disabled:bg-slate-600 disabled:from-blue-300" disabled={paymentform.name?.length < 3 || paymentform.message?.length < 4}>Pay</button>
+                            <button onClick={() => pay(Number.parseInt(paymentform.amount) * 100)} type="button" className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 disabled:bg-slate-600 disabled:from-blue-300" disabled={paymentform.name?.length < 3 || paymentform.message?.length < 4 || paymentform.amount < 1}>Pay</button>
                         </div>
 
                         {/* Or choose from the following amounts */}
-                        <div className='flex gap-2 mt-5'>
+                        <div className='flex flex-col md:flex-row gap-2 mt-5'>
                             <button className='bg-slate-800 p-3 rounded-lg' onClick={() => pay(1000)}>Pay ₹10</button>
                             <button className='bg-slate-800 p-3 rounded-lg' onClick={() => pay(2000)}>Pay ₹20</button>
                             <button className='bg-slate-800 p-3 rounded-lg' onClick={() => pay(3000)}>Pay ₹30</button>

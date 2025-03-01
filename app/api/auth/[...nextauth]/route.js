@@ -43,7 +43,7 @@ export const authoptions = NextAuth({
         await connectDb()
         // Check if user already exists in the database
         const currentUser = await User.findOne({ email: email })
-        console.log(currentUser)
+        // console.log(currentUser)
         if (!currentUser) {
           // Create a new user 
           const newUser = await User.create({
@@ -57,7 +57,7 @@ export const authoptions = NextAuth({
 
     async session({ session, user, token }) {
       const dbUser = await User.findOne({ email: session.user.email })
-      console.log(dbUser)
+      // console.log(dbUser)
       session.user.name = dbUser.username
       return session
     },

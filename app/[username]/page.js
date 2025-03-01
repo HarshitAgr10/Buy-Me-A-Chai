@@ -25,3 +25,10 @@ const Username = async ({ params }) => {
 }
 
 export default Username
+
+// or Dynamic metadata
+export async function generateMetadata({ params }) {
+  return {
+    title: `Support ${params.username} - Buy Me A Chai`,
+  }
+}

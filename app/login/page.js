@@ -12,20 +12,24 @@ const Login = () => {
     //         router.push('/dashboard') 
     //     }
 
-    const { data: session } = useSession()
+    const { data: session, status } = useSession()
     const router = useRouter()
 
     useEffect(() => {
-        document.title = "Login - Get Me A Chai"
-        console.log(session)
-        if (session) {
-            router.push('/dashboard')
+        document.title = "Login - Buy Me A Chai"
+        console.log(session, status)
+        if (status === "authenticated") {
+            router.push('/dashboard') // ✅ Redirect when authenticated
         }
-    })
+    }, [session, status]) // ✅ Depend on status and status
+
+    if (status === "loading") 
+        return <p>Checking authentication...</p> // ⏳ Show loading text
+
 
     return (
         <div className='text-white py-14 container mx-auto'>
-            <h1 className='text-center font-bold text-3xl'>Log in to unlock support from your community—let your supporters fuel your journey!</h1>
+            <h1 className='text-center font-bold text-3xl'>Log in to get started!</h1>
 
             <div className="flex flex-col gap-2 min-h-screen items-center p-10">
 
