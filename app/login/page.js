@@ -12,17 +12,25 @@ const Login = () => {
     //         router.push('/dashboard') 
     //     }
 
+    /* To get session data and authentication status from NextAuth */
     const { data: session, status } = useSession()
     const router = useRouter()
 
     useEffect(() => {
+        /* To set the document title when the component mounts */
         document.title = "Login - Buy Me A Chai"
         console.log(session, status)
+
+        /**
+         * Check if the user is authenticated using status 
+         * If true/authenticated, Redirect to dashboard  
+        */
         if (status === "authenticated") {
-            router.push('/dashboard') // ✅ Redirect when authenticated
+            router.push('/dashboard') 
         }
     }, [session, status]) // ✅ Depend on status and status
 
+    /* Display loading message while authentication status is being checked */
     if (status === "loading") 
         return <p>Checking authentication...</p> // ⏳ Show loading text
 
@@ -115,7 +123,7 @@ const Login = () => {
                     <span>Continue with Facebook</span>
                 </button>
 
-
+                {/* Github Sign-In Button */}
                 <button onClick={() => { signIn("github") }}
                     className="flex items-center w-64 bg-slate-50 text-black border border-gray-300 rounded-lg shadow-md max-w-xs px-6 py-2 text-sm font-medium  hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                     <svg className="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"

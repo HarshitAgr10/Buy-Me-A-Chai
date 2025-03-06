@@ -38,23 +38,33 @@ export const authoptions = NextAuth({
     //   }),
   ],
   callbacks: {
+    /** 
+     * signIn Callback function is triggered when a user tries to sign in.
+     * Only GitHub authentication is handled here.
+    */
     async signIn({ user, account, profile, email, credentials }) {
       if (account.provider == "github") {
         await connectDb()
+
         // Check if user already exists in the database
         const currentUser = await User.findOne({ email: email })
         // console.log(currentUser)
+
         if (!currentUser) {
-          // Create a new user 
+          // Create a new user if not found in the database
           const newUser = await User.create({
             email: user.email,
-            username: user.email.split("@")[0],
+            username: user.email.split("@")[0],   // Generate username from email
           })
         }
-        return true;
+        return true;   // Allow sign-in
       }
     },
 
+    /**
+     * session Callback function modifies the session object before sending it to the client.
+     * It fetches the user details from DB using the email and assigns the username to the session.
+    */
     async session({ session, user, token }) {
       const dbUser = await User.findOne({ email: session.user.email })
       // console.log(dbUser)
@@ -64,4 +74,5 @@ export const authoptions = NextAuth({
   }
 })
 
+/* Exports the authentication options as GET and POST handlers. */
 export { authoptions as GET, authoptions as POST }

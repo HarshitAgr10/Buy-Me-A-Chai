@@ -6,7 +6,10 @@ import User from '@/models/User'
 
 const Username = async ({ params }) => {
 
-  // If the username not found in the DB, show a 404 page 
+  /** 
+   * Function to check if the provided username exists in the database.
+   * If the username is not found, it triggers a 404 page.
+  */
   const checkUser = async () => {
     await connectDb()
     let u = await User.findOne({ username: params.username })
@@ -19,6 +22,7 @@ const Username = async ({ params }) => {
 
   return (
     <>
+     {/* Render the PaymentPage component and pass username as a prop */}
       <PaymentPage username={params.username} />
     </>
   )
@@ -26,6 +30,10 @@ const Username = async ({ params }) => {
 
 export default Username
 
+/** 
+ * Function to dynamically generate the metadata for the page.
+ * To set the page title to personalize experience based on the username.
+*/
 // or Dynamic metadata
 export async function generateMetadata({ params }) {
   return {

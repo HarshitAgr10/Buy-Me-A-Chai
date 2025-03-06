@@ -14,16 +14,23 @@ import { notFound } from "next/navigation"
 const PaymentPage = ({ username }) => {
     // const { data: session } = useSession()
 
+    /** 
+     * State variables to manage payment form inputs, user details, and payment records retrieved from the database.
+    */
     const [paymentform, setPaymentform] = useState({name: "", message: "", amount: ""})
     const [currentUser, setcurrentUser] = useState({})
     const [payments, setPayments] = useState([])
     const searchParams = useSearchParams()
     const router = useRouter()
 
+    /* useEffect to fetch user and payment data when the component mounts. */
     useEffect(() => {
         getData();
     }, [])
 
+     /** useEffect to show a toast notification if payment is successful.
+       * Redirects the user to their username-specific page after displaying message.
+    */
     useEffect(() => {
         if (searchParams.get("paymentdone") == "true") {
             toast('🦄 Thanks for your donation!', {
@@ -43,11 +50,12 @@ const PaymentPage = ({ username }) => {
     }, [])
 
 
-
+    /* Function to update state when user inputs values in the payment form. */
     const handleChange = (e) => {
         setPaymentform({ ...paymentform, [e.target.name]: e.target.value })
     }
 
+    /* Fetches user details and past payment records from the backend. */
     const getData = async () => {
         let u = await fetchuser(username)
         setcurrentUser(u)
@@ -57,6 +65,9 @@ const PaymentPage = ({ username }) => {
         // console.log(u, dbpayments)
     }
 
+    /** Initiates the payment process using Razorpay.
+     *  Retrieves order ID from backend and passes it to Razorpay checkout.
+    */
     const pay = async (amount) => {
         // Get the order id
         let a = await initiate(amount, username, paymentform)
@@ -92,6 +103,7 @@ const PaymentPage = ({ username }) => {
 
     return (
         <>
+            {/* Toast notifications for successful payments. */}
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
@@ -105,9 +117,10 @@ const PaymentPage = ({ username }) => {
                 theme="light"
             />
 
+            {/* Importing Razorpay payment script dynamically. */}
             <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
 
-
+            {/* Cover image section with user profile picture overlay. */}
             <div className='cover w-full bg-red-50 relative'>
                 <img className='object-cover w-full h-48 md:h-[350px] shadow-blue-700 shadow-sm' src={currentUser.coverpic} alt="" />
 
@@ -116,6 +129,7 @@ const PaymentPage = ({ username }) => {
                 </div>
             </div>
 
+            {/* Display user information and total amount raised. */}
             <div className="info flex justify-center items-center my-24 flex-col gap-2">
                 <div className='font-bold text-lg'>
 
@@ -128,9 +142,10 @@ const PaymentPage = ({ username }) => {
                     {payments.length} Payments . {payments.reduce((a, b) => a + b.amount, 0)} raised!
                 </div>
 
+                {/* Payment and supporters section. */}
                 <div className="payment flex gap-3 w-[80%] mt-11 flex-col md:flex-row">
                     <div className="supporters w-full md:w-1/2 bg-slate-900 rounded-lg text-white p-10">
-                        {/* Show list of all the supporters as a LeaderBoard */}
+                        {/* Display top 10 supporters. */}
                         <h2 className='text-2xl font-bold my-5'>Top 10 Supporters</h2>
                         <ul className='mx-5 text-lg'>
                             {payments.length == 0 && <li>No Payments Yet</li>}
@@ -144,6 +159,7 @@ const PaymentPage = ({ username }) => {
                         </ul>
                     </div>
 
+                    {/* Payment input form and predefined payment buttons. */}
                     <div className="makePayment w-full md:w-1/2 bg-slate-900 rounded-lg text-white p-10">
                         <h2 className='text-2xl font-bold my-5'>Make a Payment</h2>
                         <div className="flex gap-2 flex-col">
@@ -156,7 +172,7 @@ const PaymentPage = ({ username }) => {
                             <button onClick={() => pay(Number.parseInt(paymentform.amount) * 100)} type="button" className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 disabled:bg-slate-600 disabled:from-blue-300" disabled={paymentform.name?.length < 3 || paymentform.message?.length < 4 || paymentform.amount < 1}>Pay</button>
                         </div>
 
-                        {/* Or choose from the following amounts */}
+                        {/*  Predefined amount buttons. */}                         
                         <div className='flex flex-col md:flex-row gap-2 mt-5'>
                             <button className='bg-slate-800 p-3 rounded-lg' onClick={() => pay(1000)}>Pay ₹10</button>
                             <button className='bg-slate-800 p-3 rounded-lg' onClick={() => pay(2000)}>Pay ₹20</button>
